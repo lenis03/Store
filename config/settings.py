@@ -42,9 +42,17 @@ INSTALLED_APPS = [
 
     'store.apps.StoreConfig',
 
+    
+    # Third Party Apps
+     
+    "debug_toolbar",
+
 ]
 
 MIDDLEWARE = [
+    # debug tolbar
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,7 +60,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+
 ]
+
+# Configure Internal IPs
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
 
 ROOT_URLCONF = 'config.urls'
 
