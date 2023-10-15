@@ -11,6 +11,11 @@ class Category(models.Model):
         verbose_name_plural = 'categorise'
 
 
+class Discount(models.Model):
+    discount = models.FloatField()
+    description = models.CharField(max_length=255)
+
+
 class Product(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField()
@@ -18,6 +23,7 @@ class Product(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
     inventory = models.IntegerField()
+    discount = models.ManyToManyField(Discount, blank=True)
     datetime_created = models.DateTimeField(auto_now_add=True)
     datetime_modified = models.DateTimeField(auto_now=True)
 
