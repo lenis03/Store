@@ -17,4 +17,20 @@ class Customer(models.Model):
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=11, unique=True)
     birth_date = models.DateField(null=True, blank=True)
-    
+
+
+class Order(models.Model):
+    ORDER_STATUS_PAID = 'p'
+    ORDER_STATUS_UNPAID = 'u'
+    ORDER_STATUS_CANCELED = 'c'
+
+    ORDER_STATUS = [
+        (ORDER_STATUS_PAID, 'Paid'),
+        (ORDER_STATUS_UNPAID, 'Unpaid'),
+        (ORDER_STATUS_CANCELED, 'Canceled'),
+
+    ]
+
+    # Customer
+    datetime_created = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=255, choices=ORDER_STATUS, default=ORDER_STATUS_UNPAID)
