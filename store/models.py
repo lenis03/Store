@@ -16,4 +16,5 @@ class Customer(models.Model):
     last_name = models.CharField(max_length=50)
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=11, unique=True)
-    birth_date = models.DateField()
+    birth_date = models.DateField(null=True, blank=True)
+    
