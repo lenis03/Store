@@ -12,8 +12,8 @@ class Product(models.Model):
 
 
 class Customer(models.Model):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=11, unique=True)
     birth_date = models.DateField(null=True, blank=True)
@@ -33,4 +33,21 @@ class Order(models.Model):
 
     # Customer
     datetime_created = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=255, choices=ORDER_STATUS, default=ORDER_STATUS_UNPAID)
+    status = models.CharField(max_length=1, choices=ORDER_STATUS, default=ORDER_STATUS_UNPAID)
+
+
+class Comment(models.Model):
+    COMMENT_STATUS_WAITING = 'w'
+    COMMENT_STATUS_APPROVED = 'a'
+    COMMENT_STATUS_NOT_APPROVED = 'na'
+    COMMENT_STATUS = [
+        (COMMENT_STATUS_WAITING, 'Waiting'),
+        (COMMENT_STATUS_APPROVED, 'Approved'),
+        (COMMENT_STATUS_NOT_APPROVED, 'NotApproved'),
+    ]
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    body = models.TextField(max_length=500)
+    datetime_created = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=2, choices=COMMENT_STATUS, default=COMMENT_STATUS_WAITING)
