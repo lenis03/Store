@@ -4,7 +4,7 @@ from django.db import models
 class Category(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=500, blank=True)
-    top_product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True)
+    top_product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True, related_name='+')
     datetime_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
