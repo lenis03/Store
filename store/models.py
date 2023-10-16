@@ -20,11 +20,11 @@ class Discount(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField()
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='products')
     description = models.TextField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
     inventory = models.IntegerField()
-    discount = models.ManyToManyField(Discount, blank=True)
+    discounts = models.ManyToManyField(Discount, blank=True, related_name='products')
     datetime_created = models.DateTimeField(auto_now_add=True)
     datetime_modified = models.DateTimeField(auto_now=True)
 
@@ -56,14 +56,14 @@ class Order(models.Model):
 
     ]
 
-    customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
+    customer = models.ForeignKey(Customer, on_delete=models.PROTECT, related_name='orders')
     datetime_created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=1, choices=ORDER_STATUS, default=ORDER_STATUS_UNPAID)
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.PROTECT)
-    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    order = models.ForeignKey(Order, on_delete=models.PROTECT, related_name='items')
+    product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='order_items')
     quantity = models.PositiveSmallIntegerField(default=1)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     datetime_created = models.DateTimeField(auto_now_add=True)
@@ -82,7 +82,7 @@ class Comment(models.Model):
         (COMMENT_STATUS_NOT_APPROVED, 'NotApproved'),
     ]
 
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments')
     name = models.CharField(max_length=100)
     body = models.TextField(max_length=500)
     datetime_created = models.DateTimeField(auto_now_add=True)
@@ -94,8 +94,8 @@ class Cart(models.Model):
 
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.PROTECT)
-    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    cart = models.ForeignKey(Cart, on_delete=models.PROTECT, related_name='items')
+    product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='cart_items')
     quantity = models.SmallIntegerField(default=1)
 
     class Meta:
