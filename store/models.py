@@ -92,4 +92,10 @@ class Cart(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-]
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.PROTECT)
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    quantity = models.SmallIntegerField(default=1)
+
+    class Meta:
+        unique_together = [['cart', 'product']]
