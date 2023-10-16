@@ -22,7 +22,7 @@ class Product(models.Model):
     slug = models.SlugField()
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='products')
     description = models.TextField()
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    unit_price = models.DecimalField(max_digits=6, decimal_places=2)
     inventory = models.IntegerField()
     discounts = models.ManyToManyField(Discount, blank=True, related_name='products')
     datetime_created = models.DateTimeField(auto_now_add=True)
@@ -65,7 +65,7 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.PROTECT, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='order_items')
     quantity = models.PositiveSmallIntegerField(default=1)
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    unit_price = models.DecimalField(max_digits=6, decimal_places=2)
     datetime_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
