@@ -42,9 +42,9 @@ INSTALLED_APPS = [
 
     'store.apps.StoreConfig',
 
-    
+
     # Third Party Apps
-     
+
     "debug_toolbar",
 
 ]
@@ -97,8 +97,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'store',
+        'HOST': 'localhost',
+        'USER': 'root',
+        'PASSWORD': '@#3921013690fr@#',
     }
 }
 
