@@ -8,6 +8,7 @@ from . import models
 
 faker = Faker()
 
+
 class CategoryFactory(DjangoModelFactory):
     class Meta:
         model = models.Category

@@ -37,7 +37,7 @@ class Customer(models.Model):
     birth_date = models.DateField(null=True, blank=True)
 
 
-class Adress(models.Model):
+class Address(models.Model):
     customer = models.OneToOneField(Customer, on_delete=models.CASCADE, primary_key=True)
     province = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
