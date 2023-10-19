@@ -57,7 +57,7 @@ class AddressFactory(DjangoModelFactory):
 
     province = factory.Faker("word")
     city = factory.Faker("word")
-    street = factory.LazyFunction(lambda: f'street {random.randint(1, 50)}')
+    address_detail = factory.LazyFunction(lambda: f'street {random.randint(1, 50)}')
 
 
 class OrderFactory(DjangoModelFactory):
