@@ -75,6 +75,15 @@ class OrderItem(models.Model):
         unique_together = [['order', 'product']]
 
 
+# class ApprovedCommentManager(models.Manager):
+#     def get_approved(self):
+#         return self.get_queryset().filter(status=Comment.COMMENT_STATUS_APPROVED)
+
+class ApprovedCommentManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(status=Comment.COMMENT_STATUS_APPROVED)
+
+
 class Comment(models.Model):
     COMMENT_STATUS_WAITING = 'w'
     COMMENT_STATUS_APPROVED = 'a'
@@ -90,6 +99,9 @@ class Comment(models.Model):
     body = models.TextField(max_length=500)
     datetime_created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=2, choices=COMMENT_STATUS, default=COMMENT_STATUS_WAITING)
+
+    objects = models.Manager()
+    approved = ApprovedCommentManager()
 
 
 class Cart(models.Model):
