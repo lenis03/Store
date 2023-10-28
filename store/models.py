@@ -10,6 +10,9 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'category'
         verbose_name_plural = 'categorise'
+        
+    def __str__(self):
+        return self.title
 
 
 class Discount(models.Model):
