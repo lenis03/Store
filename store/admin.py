@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from store.models import Category, Order, Product
+from store.models import Category, Comment, Order, Product
 
 
 @admin.register(Product)
@@ -20,6 +20,14 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['id', 'customer', 'status', 'datetime_created']
+    list_per_page = 10
+    list_editable = ['status']
+    ordering = ['-datetime_created']
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['id', 'product', 'status', 'datetime_created']
     list_per_page = 10
     list_editable = ['status']
     ordering = ['-datetime_created']
