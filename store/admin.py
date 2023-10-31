@@ -6,9 +6,9 @@ from store.models import Category, Comment, Order, Product
 
 
 class InventoryFilter(admin.SimpleListFilter):
-    LESS_THAN_3 = '3>'
+    LESS_THAN_3 = '<3'
     BETWEEN_3_AND_10 = '3<=10'
-    MORE_THAN_10 = '10<'
+    MORE_THAN_10 = '>10'
     title = 'Critical Inventory Status'
     parameter_name = 'inventory'
 
