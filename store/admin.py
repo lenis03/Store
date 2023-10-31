@@ -36,7 +36,8 @@ class ProductAdmin(admin.ModelAdmin):
         'inventory',
         'unit_price',
         'inventory_status',
-        'product_category'
+        'product_category',
+        'num_of_comments',
         ]
     list_per_page = 10
     list_editable = ['unit_price']
@@ -53,6 +54,15 @@ class ProductAdmin(admin.ModelAdmin):
     @admin.display(ordering='category__title')
     def product_category(self, product: Product):
         return product.category.title
+
+    def get_queryset(self, request):
+        return super().get_queryset(request) \
+            .prefetch_related('comments') \
+            .annotate(comments_count=Count('comments'))
+
+    @admin.display(ordering='comments_count', description='# comments')
+    def num_of_comments(self, product: Product):
+        return product.comments_count
 
 
 @admin.register(Order)
