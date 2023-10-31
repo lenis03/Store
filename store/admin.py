@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.http.request import HttpRequest
 from django.db.models import Count
 
-from store.models import Category, Comment, Order, Product
+from store.models import Category, Comment, Customer, Order, Product
 
 
 class InventoryFilter(admin.SimpleListFilter):
@@ -74,7 +74,7 @@ class OrderAdmin(admin.ModelAdmin):
                 .prefetch_related('items') \
                 .annotate(items_count=Count('items'))
 
-    @admin.display(ordering='items_count')
+    @admin.display(ordering='items_count', description='# items')
     def num_of_items(self, order: Order):
         return order.items_count
 
@@ -85,6 +85,14 @@ class CommentAdmin(admin.ModelAdmin):
     list_per_page = 10
     list_editable = ['status']
     ordering = ['-datetime_created']
+
+
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = ['first_name', 'last_name', 'email', 'phone_number']
+    list_per_page = 10
+    ordering = ['last_name', 'first_name']
+    search_fields = ['first_name__istartswith', 'last_name__istartswith']
 
 
 admin.site.register(Category)
