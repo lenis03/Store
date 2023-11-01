@@ -1,4 +1,4 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.db.models import Count
 from django.http.request import HttpRequest
 from django.urls import reverse
@@ -46,6 +46,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ['unit_price']
     list_select_related = ['category']
     list_filter = ['datetime_created', InventoryFilter]
+    actions = ['clear_inventory']
 
     def inventory_status(self, product: Product):
         if product.inventory < 10:
@@ -75,6 +76,16 @@ class ProductAdmin(admin.ModelAdmin):
             })
         )
         return format_html('<a href="{}">{}</a>', url, product.comments_count)
+
+    @admin.action(description='Clear Inventory')
+    def clear_inventory(self, request, queryset):
+        update_count = queryset.update(inventory=0)
+        self.message_user(
+            request,
+            f'{update_count} of products inventories cleard to zero.',
+            messages.ERROR,
+        )
+
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
