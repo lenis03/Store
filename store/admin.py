@@ -91,6 +91,14 @@ class ProductAdmin(admin.ModelAdmin):
         )
 
 
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    fields = ['product', 'quantity', 'unit_price']
+    extra = 0
+    min_num = 1
+    max_num = 10
+
+
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = [
@@ -104,6 +112,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_editable = ['status']
     ordering = ['-datetime_created']
     search_fields = ['id']
+    inlines = [OrderItemInline]
 
     def get_queryset(self, request: HttpRequest):
         return super()\

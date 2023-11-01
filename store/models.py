@@ -93,9 +93,6 @@ class OrderItem(models.Model):
 
     class Meta:
         unique_together = [['order', 'product']]
-        
-    def __str__(self):
-        return 
 
 
 class CommentManager(models.Manager):
