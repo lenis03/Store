@@ -4,7 +4,7 @@ from django.db import models
 class Category(models.Model):
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=500, blank=True)
-    top_product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True, related_name='+')
+    top_product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True, blank=True,related_name='+')
     datetime_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -18,6 +18,9 @@ class Category(models.Model):
 class Discount(models.Model):
     discount = models.FloatField()
     description = models.CharField(max_length=255)
+    
+    def __str__(self):
+        return f'{self.discount} | {self.description}'
 
 
 class Product(models.Model):
