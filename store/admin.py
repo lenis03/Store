@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.http import urlencode
 
-from store.models import Category, Comment, Customer, Order, Product
+from store.models import Category, Comment, Customer, Order, OrderItem, Product
 
 
 class InventoryFilter(admin.SimpleListFilter):
@@ -50,6 +50,7 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {
         'slug': ['name', ]
     }
+    search_fields = ['name']
 
     def inventory_status(self, product: Product):
         if product.inventory < 10:
@@ -102,6 +103,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_per_page = 10
     list_editable = ['status']
     ordering = ['-datetime_created']
+    search_fields = ['id']
 
     def get_queryset(self, request: HttpRequest):
         return super()\
@@ -120,6 +122,7 @@ class CommentAdmin(admin.ModelAdmin):
     list_per_page = 10
     list_editable = ['status']
     ordering = ['-datetime_created']
+    autocomplete_fields = ['product']
 
 
 @admin.register(Customer)
@@ -128,6 +131,19 @@ class CustomerAdmin(admin.ModelAdmin):
     list_per_page = 10
     ordering = ['last_name', 'first_name']
     search_fields = ['first_name__istartswith', 'last_name__istartswith']
+
+
+@admin.register(OrderItem)
+class OrderItemAdmin(admin.ModelAdmin):
+    list_display = ['order',
+                    'product',
+                    'quantity',
+                    'unit_price',
+                    'datetime_created'
+                    ]
+    list_per_page = 10
+    ordering = ['-datetime_created']
+    autocomplete_fields = ['product']
 
 
 admin.site.register(Category)
